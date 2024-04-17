@@ -45,8 +45,16 @@ if __name__ == "__main__":
     maquina = MaquinaExpendora()
     try:
         while True:
-            # Comprovar si es detecta un moviment
-            if GPIO.input(maquina.sensor_pin) == GPIO.HIGH:
+            # Esperar fins que es detecti un moviment consistent
+            moviment_detectat = False
+            temps_inici = time.time()
+            while time.time() - temps_inici < 1:  # Esperar fins a 1 segon
+                if GPIO.input(maquina.sensor_pin) == GPIO.HIGH:
+                    moviment_detectat = True
+                    break
+            
+            # Si s'ha detectat un moviment consistent, comprar una Coca-Cola
+            if moviment_detectat:
                 maquina.comprar_cocacola()
                 time.sleep(2)  # Esperar 2 segons per evitar deteccions múltiples
     finally:
