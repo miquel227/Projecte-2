@@ -1,3 +1,11 @@
+##Coca-cola
+import os
+import sys
+import time
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import subprocess
+from Bot import TelegramBot
+
 import RPi.GPIO as GPIO
 import time
 
@@ -37,8 +45,8 @@ if __name__ == "__main__":
     maquina = MaquinaExpendora()
     try:
         while True:
-            # Esperar que es detecti un moviment
-            if GPIO.input(maquina.sensor_pin):
+            # Comprovar si es detecta un moviment
+            if GPIO.input(maquina.sensor_pin) == GPIO.HIGH:
                 maquina.comprar_cocacola()
                 time.sleep(2)  # Esperar 2 segons per evitar deteccions múltiples
     finally:
